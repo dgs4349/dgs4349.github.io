@@ -8,6 +8,7 @@ import { DebugDir } from 'Tech/DebugTools';
 import DebugLog from 'Tech/DebugTools';
 import SkyShader from './SkyShader';
 import { Group, BoxBufferGeometry } from 'three';
+import * as THREE from 'three';
 import { DebugList } from 'Tech/DebugTools';
 import SkyBox from './SkyBox';
 import Blob from './Blob';

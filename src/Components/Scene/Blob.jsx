@@ -245,10 +245,11 @@ export default function Blob(props) {
     const meshAName = 'blobA';
     const meshBName = 'blobB';
 
+    const meshGraphicsName = 'blobDisplayPlane';
+    const meshReflectName = 'blobReflectPlane';
+
     const bufferAName = 'blobBufferA';
     const bufferBName = 'blobBufferB';
-
-    const gref = React.useRef();
 
     const {windowWidth, windowHeight} = WindowDimensions();
 
@@ -283,15 +284,6 @@ export default function Blob(props) {
        Uniforms.iChannel0 = {value: GetBufferContentsTexture(bufferAName)};
        Uniforms.iChannel1 = {value: GetBufferContentsTexture(bufferBName)};
 
-       gref.current.material.map = GetBufferContentsTexture(meshMainName);
-
-       if(logs-- > 0){
-           console.log('-------------- blob ref stuff: -------------');
-           console.log(meshMainName);
-           console.log(gref.current);
-           console.log('-----------------');
-       }
-
        return Uniforms;
 
     }).bind(this);
@@ -301,32 +293,25 @@ export default function Blob(props) {
     useFrame((state, delta) => {
         UpdateGoos(delta);
     }, 0);
-
-    let logs = 10;
     
     return(<>
 
         { Array.from({length: Uniforms.NumSpheres.value}, (_, i) => <Goo key={i} index={i} />) }
 
-        <GraphicsPlane {...{
-            meshName: meshMainName + 'DisplayPlane',
+        {/* <GraphicsPlane {...{
+            meshName: meshGraphicsName,
             externalBufferSource: meshMainName
-        }}/>
+        }}/> */}
 
-        <mesh 
-            ref={gref}
-            position={[0, -1, 0]}
-            rotation={[0, Math.PI, 0]}
-        >
-            <planeBufferGeometry attach="geometry"
-            args={[20, 80]}
-            />
-            <meshPhongMaterial attach="material" 
-                    transparent={true}
-                    premultipliedAlpha={true}
-                    
-                    />
-        </mesh>
+        <GraphicsPlane {...{
+            meshName: meshReflectName,
+            externalBufferSource: meshMainName,
+
+            excludeFromMainScene: false,
+            meshProps: {
+                rotation: [0, -Math.PI, 0]
+            }
+        }}/>
 
         <GraphicsPlane {...{
             meshName: meshMainName,

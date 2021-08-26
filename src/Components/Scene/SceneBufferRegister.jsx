@@ -13,6 +13,9 @@ function populateScene(scene, objs) {
     })
 }
 
+export function GetSceneObject(key) {
+    return objectGlobalRegister[key];
+}
 
 export function RegisterSceneObject(key, obj) {
     objectGlobalRegister[key] = obj;

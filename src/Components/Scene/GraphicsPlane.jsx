@@ -256,22 +256,14 @@ export default function GraphicsPlane(props){
             RenderBufferExplicit(tctx, bufferName, _buffer, bufferSceneName, _bufferSceneObjects);
         }
         else {
+            // yeah so, my setup works great for shaders but not just a simple mat.map = texture
+            // dunno why so just going to make my own copy shader to fix this
             const _texture = GetBufferContentsTexture(externalBufferSource);
             
             if(_texture) {
                 meshRef.current.material.uniforms.iChannel0.value = _texture;
                 meshRef.current.material.uniforms.Resolution.value = new THREE.Vector2(_texture.image.width, _texture.image.height);
 
-            }
-            
-            if(logs-- >0) {
-                console.log('--------buffer plane stuff:----- ');
-                console.log(_texture);
-                console.log(meshRef.current);
-                console.log(externalBufferSource);
-                console.log(props);
-                console.log(tctx);
-                console.log('-----------------');
             }
         }
 
